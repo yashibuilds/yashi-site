@@ -17,8 +17,8 @@ export const posts: Post[] = [
       "Making each step of LLM inference more intuitive, one smol model at a time.",
   },
   {
-    slug: "normalizing-pure-braids",
-    title: "Normalizing pure braids",
+    slug: "how-to-untangle-a-braid",
+    title: "How to untangle a braid. Mathematically, of course.",
     description: "Coming soon.",
     draft: true,
   },
