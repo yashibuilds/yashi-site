@@ -7,7 +7,9 @@ import remarkGfm from "remark-gfm";
 import { getPost, getPostContent, posts } from "@/lib/posts";
 
 export function generateStaticParams() {
-  return posts.map((post) => ({ slug: post.slug }));
+  return posts
+    .filter((post) => !post.draft)
+    .map((post) => ({ slug: post.slug }));
 }
 
 export async function generateMetadata({

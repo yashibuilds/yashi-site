@@ -17,14 +17,22 @@ export default function Home() {
         <ul className="mt-6 flex flex-col divide-y divide-zinc-100 dark:divide-zinc-800/80">
           {posts.map((post) => (
             <li key={post.slug}>
-              <Link
-                href={`/blog/${post.slug}`}
-                className="group block py-5"
-              >
-                <span className="text-lg font-medium text-zinc-800 underline-offset-4 group-hover:underline dark:text-zinc-200">
-                  {post.title}
-                </span>
-              </Link>
+              {post.draft ? (
+                <div className="flex items-baseline justify-between gap-6 py-5">
+                  <span className="text-lg font-medium text-zinc-400 dark:text-zinc-600">
+                    {post.title}
+                  </span>
+                  <span className="shrink-0 text-sm text-zinc-300 dark:text-zinc-700">
+                    Coming soon
+                  </span>
+                </div>
+              ) : (
+                <Link href={`/blog/${post.slug}`} className="group block py-5">
+                  <span className="text-lg font-medium text-zinc-800 underline-offset-4 group-hover:underline dark:text-zinc-200">
+                    {post.title}
+                  </span>
+                </Link>
+              )}
             </li>
           ))}
         </ul>

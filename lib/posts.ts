@@ -5,6 +5,8 @@ export type Post = {
   slug: string;
   title: string;
   description: string;
+  /** Draft posts appear in the list but have no page yet. */
+  draft?: boolean;
 };
 
 export const posts: Post[] = [
@@ -14,10 +16,16 @@ export const posts: Post[] = [
     description:
       "Making each step of LLM inference more intuitive, one smol model at a time.",
   },
+  {
+    slug: "normalizing-pure-braids",
+    title: "Normalizing pure braids",
+    description: "Coming soon.",
+    draft: true,
+  },
 ];
 
 export function getPost(slug: string): Post | undefined {
-  return posts.find((post) => post.slug === slug);
+  return posts.find((post) => post.slug === slug && !post.draft);
 }
 
 export function getPostContent(slug: string): string {
