@@ -16,12 +16,6 @@ export const posts: Post[] = [
     description:
       "Making each step of LLM inference more intuitive, one smol model at a time.",
   },
-  {
-    slug: "how-to-untangle-a-braid",
-    title: "How to untangle a braid. Mathematically, of course.",
-    description: "Coming soon.",
-    draft: true,
-  },
 ];
 
 export function getPost(slug: string): Post | undefined {
