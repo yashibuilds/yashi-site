@@ -31,9 +31,10 @@ export default async function BlogPost({ params }: PageProps<"/blog/[slug]">) {
       <nav>
         <Link
           href="/"
+          aria-label="Back to home"
           className="text-sm text-zinc-400 transition-colors hover:text-zinc-700 dark:text-zinc-500 dark:hover:text-zinc-300"
         >
-          &larr; Yashi Surapaneni
+          &larr;
         </Link>
       </nav>
 
