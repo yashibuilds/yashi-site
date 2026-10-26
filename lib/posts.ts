@@ -5,7 +5,6 @@ export type Post = {
   slug: string;
   title: string;
   description: string;
-  date: string;
 };
 
 export const posts: Post[] = [
@@ -14,7 +13,6 @@ export const posts: Post[] = [
     title: "Building a smol inference engine for SmolLM2",
     description:
       "Making each step of LLM inference more intuitive, one smol model at a time.",
-    date: "2026-10-26",
   },
 ];
 
@@ -25,12 +23,4 @@ export function getPost(slug: string): Post | undefined {
 export function getPostContent(slug: string): string {
   const filePath = path.join(process.cwd(), "content", "posts", `${slug}.md`);
   return fs.readFileSync(filePath, "utf8");
-}
-
-export function formatDate(date: string): string {
-  return new Date(`${date}T00:00:00`).toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
 }

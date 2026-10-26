@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { formatDate, getPost, getPostContent, posts } from "@/lib/posts";
+import { getPost, getPostContent, posts } from "@/lib/posts";
 
 export function generateStaticParams() {
   return posts.map((post) => ({ slug: post.slug }));
@@ -40,12 +40,6 @@ export default async function BlogPost({ params }: PageProps<"/blog/[slug]">) {
         <h1 className="text-3xl font-semibold leading-tight tracking-tight text-zinc-900 dark:text-zinc-50">
           {post.title}
         </h1>
-        <time
-          dateTime={post.date}
-          className="mt-3 block text-sm text-zinc-400 dark:text-zinc-500"
-        >
-          {formatDate(post.date)}
-        </time>
       </header>
 
       <hr className="mt-10 border-zinc-100 dark:border-zinc-800/80" />
