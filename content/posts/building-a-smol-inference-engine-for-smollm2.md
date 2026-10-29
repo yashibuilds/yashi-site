@@ -123,4 +123,4 @@ tensor([[[ 0.1177,  0.0199, -0.0942,  ...,  0.0405,  0.1182,  0.0762],
 torch.Size([1, 9, 576])
 ```
 
-We’ve successfully selected the embedding vectors for our input token ids. Sanity checking the dimensions, we see we have a 3 dimensional input matrix for our next transformer block. 1 x 9 x 576 or B x T x D.
+We’ve successfully selected the embedding vectors for our input token ids. Sanity checking the dimensions, we see we have a 3 dimensional input tensor for our next transformer block: 1 x 9 x 576 or B x T x D.
