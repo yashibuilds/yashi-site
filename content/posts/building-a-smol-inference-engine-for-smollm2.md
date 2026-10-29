@@ -6,7 +6,7 @@ I wrote this article under the assumption that the reader has basic inference kn
 
 ## Step 0: Explore SmolLM2-135M
 
-As the honorable Abraham Lincoln ( “Honest Abe”), esteemed 16th President of the United States, preserver of the Union, and author of the Emancipation Proclamation once said: “To optimize your generative AI model’s performance in production, you must first understand it.”
+As the honorable Abraham “Honest Abe” Lincoln, esteemed 16th President of the United States, preserver of the Union, and author of the Emancipation Proclamation once said: “To optimize your generative AI model’s performance in production, you must first understand it.”
 
 Heeding his advice, we shall begin our journey by exploring SmolLM2-135M’s config.
 
@@ -82,23 +82,21 @@ tensor([[  504,  7704,   351,   260,  6250,  5049, 10258,  2042,   314]])
 torch.Size([1, 9])
 ```
 
-Note that token ids carry no semantic meaning whatsoever. They are purely positional information about where that token falls in the model’s vocab, so “cat” and “Cat” do not necessarily have similar token ids. The token ids corresponding to our input sequence are stored in a 2D tensor (matrix) with dimension 1 x 9. We generalize the dimensionality of a token id tensor to B x T, where:
+Note that token ids carry no semantic meaning whatsoever. They are purely information about where that token falls in the model’s vocab, so “cat” and “Cat” and “ cat” do not necessarily have similar token ids. The token ids corresponding to our input sequence are stored in a 2D tensor (matrix) with dimension 1 x 9. We generalize the dimensionality of a token id tensor to B x T, where:
 
 B = batch size
 
-T = \# of tokens in the batches’ input sequences
+T = # of tokens in the batches’ input sequences
 
-Batch size refers to the number of prompts the model processes at once. When you ask ChatGPT a question, it is highly unlikely you are the only person in the world asking it a question at that time. Often, production models must process several prompts at once. Tensors must be rectangular with the same number of columns, so the logical question that follows is, “What if batches have different sized inputs?” This introduces the concept of padding, which I’ve written a small blurb about in the TLDR Appendix. In this experiment, we only process one batch for simplicity.
+Batch size refers to the number of prompts the model processes at once. When you ask ChatGPT a question, it is highly unlikely you are the only person in the world asking it a question at that time. Often, production models must process several prompts at once. Tensors must be rectangular with the same number of columns, so the logical question that follows is, “What if batches have different sized inputs?” This introduces the concept of padding, which I’ve written a small blurb about in the TLDR Appendix. We will begin by only processing one batch for simplicity.
 
 ---
 
-## Step 2: Prefill
-
-When you prompt a model, it needs to process your input so it can generate a response. Prefill is the process that looks up the embeddings for our 9 input tokens, passes those embeddings through all 30 transformer blocks, stores each layer’s keys and values in the KV cache, and computes the logits used to predict the first output token. Prefill is followed by decode, the step that generates subsequent tokens one at a time, reusing the cached keys and values from previous tokens.
+## Step 2. Prefill
 
 ### 2a. Embedding
 
-Next, we need to retrieve the embedding vector for each token from the input. First, we get the model’s embedding table which stores the embedding vector for every token in its vocabulary. Thus, the table should be vocab size x # of features, or 49,152 x 576.
+Next, we need to retrieve the embedding vector for each token from the input. First, we get the model’s embedding table which stores the embedding vector for every token in its vocabulary. Thus, the table should have the following dimension: vocab size x hidden size, or 49,152 x 576.
 
 ```python
 # The embedding table's shape is 49,152 x 576:
@@ -107,10 +105,22 @@ embedding_table = model.model.embed_tokens.weight.data
 
 Then, we grab specifically our input token ids’ corresponding embedding vectors only.
 
-## TLDR Appendix
+```python
+X = embedding_table[token_ids]
+print(X)
+print(X.shape)
+```
 
-As I was building this inference engine, I found myself constantly asking questions about concepts that were tangentially related. I’ve included this section to indulge my curiosities succinctly and help me (and hopefully you as well) sleep better at night. Hopefully I’ll expand upon some of these and turn them into future blog posts!
+```
+tensor([[[ 0.1177,  0.0199, -0.0942,  ...,  0.0405,  0.1182,  0.0762],
+         [ 0.0101,  0.0771, -0.0981,  ..., -0.0398,  0.2480,  0.0571],
+         [ 0.0894,  0.0045,  0.0874,  ...,  0.0342, -0.0164, -0.0762],
+         ...,
+         [-0.0183,  0.0718, -0.0160,  ..., -0.1060,  0.1123, -0.0393],
+         [-0.1699,  0.1348,  0.0820,  ...,  0.0109, -0.0118, -0.0811],
+         [-0.0522,  0.0179, -0.0613,  ...,  0.1455,  0.0889, -0.0452]]],
+       device='cuda:0')
+torch.Size([1, 9, 576])
+```
 
-1. How is a model’s vocabulary generated?
-2. How do tokenizers work?
-3. What does a model do when its batches inevitably have a different number of tokens?
+We’ve successfully selected the embedding vectors for our input token ids. Sanity checking the dimensions, we see we have a 3 dimensional input matrix for our next transformer block. 1 x 9 x 576 or B x T x D.
