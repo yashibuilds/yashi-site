@@ -94,6 +94,8 @@ Batch size refers to the number of prompts the model processes at once. When you
 
 ## Step 2. Prefill
 
+When you prompt a model, it needs to process your input so it can generate a response. Prefill is the process that looks up the embeddings for our 9 input tokens, passes those embeddings through all 30 transformer blocks, stores each layer’s keys and values in the KV cache, and computes the logits used to predict the first output token. Prefill is followed by decode, the step that generates subsequent tokens one at a time, reusing the cached keys and values from previous tokens.
+
 ### 2a. Embedding
 
 Next, we need to retrieve the embedding vector for each token from the input. First, we get the model’s embedding table which stores the embedding vector for every token in its vocabulary. Thus, the table should have the following dimension: vocab size x hidden size, or 49,152 x 576.
