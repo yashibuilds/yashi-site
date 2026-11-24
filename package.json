@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@tailwindcss/typography": "^0.5.20",
+    "github-slugger": "^2.0.0",
     "katex": "^0.19.1",
     "mermaid": "^12.3.0",
     "next": "^16.4.6",
@@ -18,6 +19,7 @@
     "react-markdown": "^10.1.0",
     "rehype-highlight": "^7.0.2",
     "rehype-katex": "^7.0.1",
+    "rehype-slug": "^6.0.0",
     "remark-gfm": "^4.0.1",
     "remark-math": "^6.0.0"
   },

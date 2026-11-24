@@ -6,10 +6,13 @@ import { isValidElement, type ComponentProps, type ReactNode } from "react";
 import Markdown from "react-markdown";
 import rehypeHighlight from "rehype-highlight";
 import rehypeKatex from "rehype-katex";
+import rehypeSlug from "rehype-slug";
 import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
 import MermaidDiagram from "@/components/mermaid-diagram";
+import TableOfContents from "@/components/table-of-contents";
 import { getPost, getPostContent, posts } from "@/lib/posts";
+import { extractToc } from "@/lib/toc";
 
 function Pre(props: ComponentProps<"pre">) {
   const child = props.children;
@@ -43,9 +46,15 @@ export default async function BlogPost({ params }: PageProps<"/blog/[slug]">) {
   if (!post) notFound();
 
   const content = getPostContent(post.slug);
+  const toc = extractToc(content);
 
   return (
     <div className="mx-auto w-full max-w-2xl px-6 py-16 sm:py-24">
+      {toc.length > 0 && (
+        <aside className="fixed top-28 hidden w-60 xl:left-[calc(50%+22rem)] xl:block">
+          <TableOfContents items={toc} />
+        </aside>
+      )}
       <nav>
         <Link
           href="/"
@@ -82,6 +91,7 @@ export default async function BlogPost({ params }: PageProps<"/blog/[slug]">) {
         <Markdown
           remarkPlugins={[remarkGfm, remarkMath]}
           rehypePlugins={[
+            rehypeSlug,
             rehypeKatex,
             [rehypeHighlight, { plainText: ["mermaid"] }],
           ]}
