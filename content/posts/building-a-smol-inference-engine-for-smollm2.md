@@ -188,9 +188,9 @@ V = what information can I actually provide
 An analogy I like to think of is Yashi’s movie streaming service. Imagine we have a small dictionary catalog (that doesn’t require hashable keys or proper syntax) of some of my favorite movies:
 
 ```
-Movie Catalog: { {genre: thriller,     actor: Christian Bale,  runtime: 130}: the_prestige.mov,
-                 {genre: romcom,       actor: Heath Ledger,    runtime: 97}:  10_things.mov,
-                 {genre: scifi horror, actor: Jake Gyllenhaal, runtime: 104}: life.mov,
+Movie Catalog: { {genre: thriller,     actor: Christian Bale,  runtime: 130}: the_prestige.mov},
+                 {genre: romcom,       actor: Heath Ledger,    runtime: 97}:  10_things.mov},
+                 {genre: scifi horror, actor: Jake Gyllenhaal, runtime: 104}: life.mov},
                }
 ```
 
