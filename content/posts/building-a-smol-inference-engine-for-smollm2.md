@@ -187,12 +187,13 @@ V = what information can I actually provide
 
 An analogy I like to think of is Yashi’s movie streaming service. Imagine we have a small dictionary catalog (that doesn’t require hashable keys or proper syntax) of some of my favorite movies:
 
-```
-Movie Catalog: { {genre: thriller,     actor: Christian Bale,  runtime: 130}: the_prestige.mov},
-                 {genre: romcom,       actor: Heath Ledger,    runtime: 97}:  10_things.mov},
-                 {genre: scifi horror, actor: Jake Gyllenhaal, runtime: 104}: life.mov},
-               }
-```
+Movie Catalog: { {genre: thriller, actor: Christian Bale, runtime: 130}: the_prestige.mov},
+
+{genre: romcom, actor: Heath Ledger, runtime: 97}: 10_things.mov},
+
+{genre: scifi horror, actor: Jake Gyllenhaal, runtime: 104}: life.mov},
+
+}
 
 Tonight, I feel like watching a comedy movie around 90 minutes long with Adam Sandler. I pass in my query, the information I’m looking for, as: {genre: comedy, actor: Adam Sandler, runtime: 90}. The streaming service takes my query and compares it against each key to find the closest match. There’s no exact match, but the closest movie to what I’m looking for is 10 Things I Hate About You. Now that we know what movie is closest to what I want, the streaming service hands me the 10_things.mov file (the value) so that I can actually watch the movie.
 
