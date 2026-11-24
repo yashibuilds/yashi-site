@@ -208,3 +208,28 @@ $K = XW_k$
 $V = XW_v$
 
 Note that our input tensor was a 3D tensor that contains several (unless the batch size is 1) matrices inside. Each inner matrix is multiplied by the learned projections.
+
+```python
+# Retrieve Wq, Wk, Wv weights
+qkv_projections = smollm2.model.layers[0].self_attn
+Wq = qkv_projections.q_proj.weight.data # (576, 576)
+Wk = qkv_projections.k_proj.weight.data # (192, 576)
+Wv = qkv_projections.v_proj.weight.data # (192, 576)
+
+# Compute Q, K, V
+Q = H @ Wq.T
+K = H @ Wk.T
+V = H @ Wv.T
+```
+
+```python
+# Calculate number of q and k_v heads
+num_q_heads = config["num_attention_heads"] # 9
+head_size = config["hidden_size"] // num_q_heads # 64
+num_kv_heads = config["num_key_value_heads"] # 3
+
+# Break Q, K, V into their heads
+Q = Q.view(1, T, num_q_heads, head_dim).transpose(1, 2)      # [1, 9, T, 64]
+K = K.view(1, T, num_kv_heads, head_dim).transpose(1, 2)   # [1, 3, T, 64]
+V = V.view(1, T, num_kv_heads, head_dim).transpose(1, 2)   # [1, 3, T, 64]
+```
