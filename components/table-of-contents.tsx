@@ -31,7 +31,7 @@ export default function TableOfContents({ items }: { items: TocItem[] }) {
   return (
     <nav aria-label="Table of contents">
       <p className="text-xs font-medium uppercase tracking-widest text-zinc-400 dark:text-zinc-500">
-        On this page
+        Table of contents
       </p>
       <ul className="mt-4 flex flex-col gap-2.5 border-l border-zinc-100 pl-4 text-sm dark:border-zinc-800/80">
         {items.map((item) => (

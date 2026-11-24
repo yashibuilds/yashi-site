@@ -57,7 +57,7 @@ export default async function BlogPost({ params }: PageProps<"/blog/[slug]">) {
           </div>
         </aside>
       )}
-      <nav>
+      <nav className="flex h-9">
         <Link
           href="/"
           aria-label="Back to home"
