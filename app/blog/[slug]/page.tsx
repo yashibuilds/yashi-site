@@ -51,7 +51,7 @@ export default async function BlogPost({ params }: PageProps<"/blog/[slug]">) {
   return (
     <div className="relative mx-auto w-full max-w-2xl px-6 py-16 sm:py-24">
       {toc.length > 0 && (
-        <aside className="absolute -left-[17.5rem] bottom-0 top-[172px] hidden w-60 xl:block">
+        <aside className="absolute -left-[17.5rem] bottom-0 top-[177px] hidden w-60 xl:block">
           <div className="sticky top-10">
             <TableOfContents items={toc} />
           </div>
